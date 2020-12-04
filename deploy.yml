@@ -1,0 +1,39 @@
+---
+version: "2.0"
+
+services:
+  web:
+    image: maiyude/tronmoney:v1
+    expose:
+      - port: 8501
+        as: 80
+        to:
+          - global: true
+
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 0.1
+        memory:
+          size: 512Mi
+        storage:
+          size: 1500Mi
+  placement:
+    westcoast:
+      attributes:
+        organization: maiyude
+      signedBy:
+        anyOf:
+          - "akash1axa0kwtpf4phhwmk7ycca5dr5unww837j52guj"
+      pricing:
+        web: 
+          denom: uakt
+          amount: 1000
+
+deployment:
+  web:
+    westcoast:
+      profile: web
+      count: 1
